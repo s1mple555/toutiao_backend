@@ -12,7 +12,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession, create_asyn
 # ==================== 阶段 1: 初始化阶段 ====================
 # 数据库连接 URL（应用启动时读取配置）
 # 格式：mysql+aiomysql://用户名：密码@主机：端口/数据库名？charset=字符集
-ASYNC_DATABASE_URL = "mysql+aiomysql://root:2919219501fh@localhost:3306/news_app?charset=utf8mb4"
+ASYNC_DATABASE_URL = "mysql+aiomysql://root:123456@localhost:3306/news_app?charset=utf8mb4"
 
 # 创建异步数据库引擎（应用启动时只创建一次）
 # 引擎是数据库连接的底层池，管理所有物理连接
