@@ -1,7 +1,7 @@
 #放新闻模块所有路由
 from fastapi import APIRouter,Depends,Query
 from sqlalchemy.ext.asyncio import AsyncSession
-from crud import news
+from crud import news,news_cache
 from fastapi import HTTPException
 from config.db_config import get_db
 #路由前缀，tags标签，用于在docs#交互式文档中分类显示
@@ -9,7 +9,7 @@ router=APIRouter(prefix="/api/news",tags=['news'])
 
 @router.get("/categories")
 async def get_categories(skip:int=0,limit:int=100,db:AsyncSession=Depends(get_db)):
-    categories=await news.get_categories(db,skip,limit)
+    categories=await news_cache.get_categories(db,skip,limit)#更新方法，在缓存中读取。
     # 要先获取数据库里里面新闻分类->定义模型类->封装查询数据的方法
     return {
         "code":200,
@@ -25,7 +25,7 @@ async def get_news_list(
     db:AsyncSession=Depends(get_db)
 ):
     offset=(page-1)*page_size
-    news_list=await news.get_news_list(db,category_id,offset,page_size)
+    news_list=await news_cache.get_news_list(db,category_id,offset,page_size)
     total=await news.get_news_count(db,category_id)
     hasMore=(offset+len(news_list))<total
     return{
